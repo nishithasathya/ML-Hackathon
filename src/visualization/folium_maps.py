@@ -7,7 +7,8 @@ Layers (each can be toggled in the layer control):
     * Speed outliers    - fixes flagged by preprocessing (red)
     * Gap starts        - first fix after a long time gap (orange)
     * Candidates        - optional: candidate arcs of a few selected observations (purple)
-    * Predicted route   - optional hook for later phases; empty in phase 1
+    * Classifier-only   - optional (phase 2): top-1 arc per observation, no HMM (orange)
+    * Predicted route   - optional (phase 2): HMM/Viterbi route (magenta)
 
 Only the part of the network around the track is drawn: big trips have
 >300,000 arcs, which would make the HTML file unusable.
@@ -25,7 +26,7 @@ from branca.element import Element
 from src.common.io import RawTrip
 
 COLOURS = {"network": "#9e9e9e", "route": "#2e7d32", "gps": "#1565c0", "outlier": "#d32f2f",
-           "gap": "#ef6c00", "candidate": "#7b1fa2", "predicted": "#000000"}
+           "gap": "#ef6c00", "candidate": "#7b1fa2", "predicted": "#d81b60", "classifier": "#ff8f00"}
 METRES_PER_DEG_LAT = 111_320.0
 
 
@@ -58,7 +59,8 @@ def _add_legend(fmap: folium.Map, entries) -> None:
 
 def build_trip_map(raw: RawTrip, track: Optional[pd.DataFrame] = None, candidates: Optional[pd.DataFrame] = None,
                    predicted_arc_ids: Optional[Iterable[int]] = None, show_network: bool = True,
-                   show_route: bool = True, network_buffer_m: float = 150.0) -> folium.Map:
+                   show_route: bool = True, network_buffer_m: float = 150.0,
+                   classifier_arc_ids: Optional[Iterable[int]] = None) -> folium.Map:
     """Build the map. ``track`` is PreprocessedTrip.track (for outlier/gap flags);
     ``candidates`` is a candidate table restricted to the observations to show."""
     lon, lat = raw.track[:, 0], raw.track[:, 1]
@@ -114,12 +116,19 @@ def build_trip_map(raw: RawTrip, track: Optional[pd.DataFrame] = None, candidate
         layer.add_to(fmap)
         legend.append(("Candidate arcs", COLOURS["candidate"]))
 
-    if predicted_arc_ids is not None:  # filled in by later phases (classifier / HMM output)
-        layer = folium.FeatureGroup(name="Predicted route", show=True)
-        folium.PolyLine(_arc_lines(raw.nodes, raw.arcs, predicted_arc_ids), color=COLOURS["predicted"], weight=3,
-                        dash_array="6", tooltip="Predicted route").add_to(layer)
+    if classifier_arc_ids is not None:
+        layer = folium.FeatureGroup(name="Classifier-only prediction (no HMM)", show=False)
+        folium.PolyLine(_arc_lines(raw.nodes, raw.arcs, sorted(set(classifier_arc_ids))), color=COLOURS["classifier"],
+                        weight=3, opacity=0.9, tooltip="Classifier-only top-1 arc").add_to(layer)
         layer.add_to(fmap)
-        legend.append(("Predicted route", COLOURS["predicted"]))
+        legend.append(("Classifier-only arcs", COLOURS["classifier"]))
+
+    if predicted_arc_ids is not None:  # HMM/Viterbi output
+        layer = folium.FeatureGroup(name="Predicted route (HMM/Viterbi)", show=True)
+        folium.PolyLine(_arc_lines(raw.nodes, raw.arcs, list(dict.fromkeys(predicted_arc_ids))),
+                        color=COLOURS["predicted"], weight=3, dash_array="6", tooltip="Predicted route").add_to(layer)
+        layer.add_to(fmap)
+        legend.append(("Predicted route (HMM)", COLOURS["predicted"]))
 
     folium.Marker([lat[0], lon[0]], tooltip="Start", icon=folium.Icon(color="green", icon="play")).add_to(fmap)
     folium.Marker([lat[-1], lon[-1]], tooltip="End", icon=folium.Icon(color="red", icon="stop")).add_to(fmap)
