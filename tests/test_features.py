@@ -71,3 +71,39 @@ def test_run_features_cli(synthetic_root, tmp_path):
     run_features.main(["--partition", "train", "--data-root", str(synthetic_root), "--output-dir", str(out),
                        "--sweep", "25", "50"])
     assert set(pd.read_csv(out / "radius_sweep.csv")["radius_m"]) == {25, 50}
+
+
+# ---------------------------------------------------------------- phase 2
+def test_feature_list_excludes_labels_and_trip_progress():
+    from src.features.features import FEATURE_COLUMNS, LABEL_COLUMNS
+    assert not set(FEATURE_COLUMNS) & set(LABEL_COLUMNS)
+    assert not {"t_rel", "cum_dist_m", "segment_id", "trip_id", "obs_idx", "arc_id"} & set(FEATURE_COLUMNS)
+
+
+def test_inference_features_have_no_labels_and_full_feature_set(pre):
+    from src.features.features import FEATURE_COLUMNS, LABEL_COLUMNS, model_matrix
+    table, _ = build_trip_features(pre, with_labels=False)
+    assert not set(LABEL_COLUMNS) & set(table.columns)
+    X = model_matrix(table)
+    assert list(X.columns) == FEATURE_COLUMNS and len(X) == len(table)
+
+
+def test_context_features(pre):
+    table, _ = build_trip_features(pre, with_labels=True)
+    ref = table[table["is_reference"]]
+    # the vehicle drives along the reference arc: positive along-arc motion, neighbours close to it
+    assert (ref["along_arc_motion_m"].dropna() > 0).mean() > 0.8
+    assert ref["prev_obs_dist_m"].median() < 10
+    starts = table[table["is_segment_start"].astype(bool)]
+    assert starts["prev_obs_dist_m"].isna().all()  # never measured across a gap
+
+
+def test_duplicate_arcs_share_the_reference_label(synthetic_root):
+    from src.common.io import RawTrip
+    raw = load_trip("train", "00000001", synthetic_root)
+    dup = RawTrip(raw.trip_id, raw.partition, raw.track, raw.nodes, np.vstack([raw.arcs, raw.arcs[raw.route[0]]]),
+                  raw.route, raw.directory)
+    table, _ = build_trip_features(preprocess_trip(dup), with_labels=True)
+    first = table[table["obs_idx"] == table["obs_idx"].min()]
+    labels = first.set_index("arc_id")["is_reference"]
+    assert labels[raw.route[0]] and labels[len(raw.arcs)]  # the copy is labelled like the original

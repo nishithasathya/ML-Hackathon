@@ -13,8 +13,16 @@ Three groups of features are built:
    vehicle heading and the arc bearing (the main signal for telling apart the
    two directions of the same street).
 
+4. Temporal-context pair features (phase 2): how far the PREVIOUS and NEXT GPS
+   fixes are from the same candidate arc, and how far the vehicle moves along
+   the arc's direction between them. A correct arc is usually close to the
+   neighbouring fixes too, and the vehicle moves forward along it; the
+   opposite-direction twin has the same distances but negative motion.
+
 The reference label (``is_reference``) is attached as a separate column and is
-never used to compute any feature.
+never used to compute any feature. ``FEATURE_COLUMNS`` is the single list of
+model inputs used by training AND inference; ``LABEL_COLUMNS`` must never be a
+model input.
 """
 from __future__ import annotations
 
@@ -23,7 +31,7 @@ from typing import Dict, Optional, Tuple
 import numpy as np
 import pandas as pd
 
-from src.common.geo import angle_diff_deg, bearing_from_xy
+from src.common.geo import angle_diff_deg, bearing_from_xy, point_segment_distance
 from src.features.candidates import CandidateConfig, generate_candidates
 from src.features.labels import align_track_to_route
 from src.features.spatial_index import ArcIndex
@@ -32,6 +40,26 @@ from src.features.spatial_index import ArcIndex
 # displacement we report NaN instead of a noise-driven angle.
 MIN_HEADING_DISPLACEMENT_M = 2.0
 SPEED_SMOOTHING_WINDOW = 5  # observations (about 5 s at 1 Hz)
+
+# Identifier columns: needed to map scores back to (observation, road arc); never model inputs.
+ID_COLUMNS = ["trip_id", "obs_idx", "arc_id"]
+# Label / diagnostic columns derived from the reference route: NEVER model inputs.
+LABEL_COLUMNS = ["is_reference", "ref_distance_m", "ref_arc_id"]
+# Model inputs. Trip-progress columns (t_rel, cum_dist_m, segment_id) and absolute
+# directions (heading_deg, arc_bearing_deg) are deliberately excluded: they cannot
+# generalise to an unseen trip.
+FEATURE_COLUMNS = [
+    "distance_m", "distance_rank", "dist_minus_nearest_m", "offset_frac", "n_candidates",
+    "heading_diff_deg", "heading_cos", "along_arc_motion_m", "prev_obs_dist_m", "next_obs_dist_m",
+    "arc_length_m", "arc_to_out_degree", "arc_has_reverse",
+    "speed_mps", "speed_smooth_mps", "accel_mps2", "heading_change_deg", "step_dist_m",
+    "dt_prev", "dt_next", "is_speed_outlier", "is_segment_start",
+]
+
+
+def model_matrix(table: pd.DataFrame) -> pd.DataFrame:
+    """The exact model input matrix (same function for training and inference)."""
+    return table[FEATURE_COLUMNS].astype(float)
 
 
 def observation_features(track: pd.DataFrame) -> pd.DataFrame:
@@ -92,6 +120,46 @@ def candidate_features(candidates: pd.DataFrame, obs_feats: pd.DataFrame, arc_at
     return table
 
 
+def add_context_features(table: pd.DataFrame, track: pd.DataFrame, index: ArcIndex) -> pd.DataFrame:
+    """Distances of the previous/next fix (same gap segment) to each candidate arc, and along-arc motion."""
+    if table.empty:
+        for col in ("prev_obs_dist_m", "next_obs_dist_m", "along_arc_motion_m", "heading_cos"):
+            table[col] = pd.Series(dtype=float)
+        return table
+    pos_of = pd.Series(np.arange(len(track)), index=track["obs_idx"].to_numpy())
+    pos = pos_of.reindex(table["obs_idx"].to_numpy()).to_numpy()
+    x, y, seg = track["x"].to_numpy(), track["y"].to_numpy(), track["segment_id"].to_numpy()
+    n = len(track)
+    arc = table["arc_id"].to_numpy()
+    ax, ay, bx, by = index.ax[arc], index.ay[arc], index.bx[arc], index.by[arc]
+
+    def neighbour(offset: int):
+        npos = pos + offset
+        ok = (npos >= 0) & (npos < n)
+        npos_c = np.clip(npos, 0, n - 1)
+        ok &= seg[npos_c] == seg[pos]
+        return npos_c, ok
+
+    out = {}
+    for name, offset in (("prev_obs_dist_m", -1), ("next_obs_dist_m", 1)):
+        npos, ok = neighbour(offset)
+        d, _ = point_segment_distance(x[npos], y[npos], ax, ay, bx, by)
+        out[name] = np.where(ok, d, np.nan)
+    p_prev, ok_prev = neighbour(-1)
+    p_next, ok_next = neighbour(1)
+    # Displacement prev -> next (falls back to the fix itself at segment ends), projected on the arc direction.
+    x0 = np.where(ok_prev, x[p_prev], x[pos]); y0 = np.where(ok_prev, y[p_prev], y[pos])
+    x1 = np.where(ok_next, x[p_next], x[pos]); y1 = np.where(ok_next, y[p_next], y[pos])
+    length = np.hypot(bx - ax, by - ay)
+    safe = np.where(length > 0, length, 1.0)
+    along = ((x1 - x0) * (bx - ax) + (y1 - y0) * (by - ay)) / safe
+    out["along_arc_motion_m"] = np.where(length > 0, along, 0.0)
+    for name, values in out.items():
+        table[name] = values
+    table["heading_cos"] = np.cos(np.radians(table["heading_diff_deg"]))
+    return table
+
+
 def build_trip_features(pre, config: CandidateConfig = CandidateConfig(), with_labels: bool = True,
                         index: Optional[ArcIndex] = None,
                         labels: Optional[pd.DataFrame] = None) -> Tuple[pd.DataFrame, Dict[str, float]]:
@@ -104,7 +172,8 @@ def build_trip_features(pre, config: CandidateConfig = CandidateConfig(), with_l
     index = index or ArcIndex(pre.nodes_xy, pre.arcs, config.sample_spacing_m)
     candidates = generate_candidates(pre.track, index, config)
     table = candidate_features(candidates, observation_features(pre.track), arc_attributes(index))
-    table.insert(0, "trip_id", pre.trip_id)
+    table = add_context_features(table, pre.track, index)
+    table.insert(0, "trip_id", str(pre.trip_id))
 
     n_obs = len(pre.track)
     n_with = int(candidates["obs_idx"].nunique()) if len(candidates) else 0
@@ -119,7 +188,13 @@ def build_trip_features(pre, config: CandidateConfig = CandidateConfig(), with_l
         if labels is None:
             labels = align_track_to_route(pre.track, pre.nodes_xy, pre.arcs, pre.route)
         table = table.merge(labels[["obs_idx", "ref_arc_id", "ref_distance_m"]], on="obs_idx", how="left")
-        table["is_reference"] = table["arc_id"] == table["ref_arc_id"]
+        # Arcs with the same (from, to) node pair are the same road piece (1,903 duplicate arcs
+        # in 60 trips): both count as the reference, otherwise identical inputs get opposite labels.
+        ref_ok = table["ref_arc_id"].notna().to_numpy()
+        ref_ids = table["ref_arc_id"].fillna(0).astype(np.int64).to_numpy()
+        cand = table["arc_id"].to_numpy()
+        same_pair = (pre.arcs[cand, 0] == pre.arcs[ref_ids, 0]) & (pre.arcs[cand, 1] == pre.arcs[ref_ids, 1])
+        table["is_reference"] = ref_ok & ((cand == ref_ids) | same_pair)
         hit = table.groupby("obs_idx")["is_reference"].any().reindex(labels["obs_idx"], fill_value=False)
         nearest_hit = table.loc[table["distance_rank"] == 1].set_index("obs_idx")["is_reference"] \
             .reindex(labels["obs_idx"], fill_value=False)
@@ -135,5 +210,6 @@ def build_trip_features(pre, config: CandidateConfig = CandidateConfig(), with_l
             "nearest_arc_is_reference_rate": float(nearest_hit.mean()),
             "ref_distance_median_m": float(labels["ref_distance_m"].median()),
         })
-        table = table.drop(columns=["ref_arc_id"])
+        # ref_arc_id is kept (label column) so evaluation can score observations without
+        # any correct candidate; it is listed in LABEL_COLUMNS and never used as a feature.
     return table, summary
