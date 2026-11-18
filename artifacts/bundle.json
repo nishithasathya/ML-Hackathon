@@ -1,0 +1,78 @@
+{
+  "bundle_version": "2.0.0",
+  "created_utc": "2026-11-18T10:23:15+00:00",
+  "model": {
+    "key": "rf",
+    "params": {
+      "n_estimators": 106,
+      "max_depth": 30,
+      "min_samples_leaf": 2,
+      "max_features": 0.5975133706123893,
+      "class_weight": "balanced_subsample"
+    },
+    "file": "model.joblib",
+    "sha256": "1ad054b2cf990c48947b8b16d728df86da56e25b11e3e93052e523035e368637"
+  },
+  "feature_columns": [
+    "distance_m",
+    "distance_rank",
+    "dist_minus_nearest_m",
+    "offset_frac",
+    "n_candidates",
+    "heading_diff_deg",
+    "heading_cos",
+    "along_arc_motion_m",
+    "prev_obs_dist_m",
+    "next_obs_dist_m",
+    "arc_length_m",
+    "arc_to_out_degree",
+    "arc_has_reverse",
+    "speed_mps",
+    "speed_smooth_mps",
+    "accel_mps2",
+    "heading_change_deg",
+    "step_dist_m",
+    "dt_prev",
+    "dt_next",
+    "is_speed_outlier",
+    "is_segment_start"
+  ],
+  "candidate_config": {
+    "radius_m": 50.0,
+    "max_candidates": 10,
+    "sample_spacing_m": 20.0
+  },
+  "preprocess_config": {
+    "gap_threshold_s": 30.0,
+    "max_speed_mps": 70.0,
+    "drop_speed_outliers": false
+  },
+  "hmm_config": {
+    "emission_weight": 0.5,
+    "transition_beta_m": 5.0,
+    "unreachable_log_prob": -30.0,
+    "max_speed_mps": 60.0,
+    "position_tolerance_m": 25.0,
+    "min_prob": 0.0001
+  },
+  "seed": 42,
+  "training": {
+    "partitions": [
+      "train"
+    ],
+    "excluded_trips": [
+      "00000033",
+      "00000054"
+    ],
+    "observation_stride": 3,
+    "n_fit_rows": 385930
+  },
+  "metrics": {
+    "student_test_classifier_top1": 0.8657620041753653,
+    "student_test_classifier_macro_f1": 0.9197664032229187,
+    "student_test_classifier_log_loss": 0.10387173110995657,
+    "cv_top1_mean": 0.7803907486345651,
+    "student_test_hmm_top1": 0.9527661795407099,
+    "student_test_hmm_route_continuity": 0.9996866513473992
+  }
+}
