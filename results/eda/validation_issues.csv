@@ -1,0 +1,182 @@
+partition,trip_id,file,severity,code,count,message
+train,00000001,nodes,info,DUPLICATE_NODE_COORD,8,distinct node ids share coordinates
+train,00000001,arcs,info,DUPLICATE_ARC,292,"same (from,to) pair appears under several arc ids"
+train,00000002,track,info,TIME_GAP,10,intervals longer than 30s (largest 160s)
+train,00000002,track,info,NON_INTEGER_TIME,7072,fractional timestamps
+train,00000002,track,info,REPEATED_POSITION,1,consecutive identical positions
+train,00000002,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+train,00000003,nodes,info,DUPLICATE_NODE_COORD,3,distinct node ids share coordinates
+train,00000003,arcs,info,DUPLICATE_ARC,6,"same (from,to) pair appears under several arc ids"
+train,00000004,track,info,TIME_GAP,2,intervals longer than 30s (largest 51s)
+train,00000004,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000004,arcs,info,DUPLICATE_ARC,5,"same (from,to) pair appears under several arc ids"
+train,00000006,track,info,TIME_GAP,3,intervals longer than 30s (largest 301s)
+train,00000006,track,info,START_TIME_NOT_1,1,first timestamp is 693
+train,00000008,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000008,arcs,info,DUPLICATE_ARC,12,"same (from,to) pair appears under several arc ids"
+train,00000008,route,info,ROUTE_REPEATED_ARC,1,route traverses the same arc more than once
+train,00000010,arcs,info,DUPLICATE_ARC,7,"same (from,to) pair appears under several arc ids"
+train,00000011,track,info,TIME_GAP,1,intervals longer than 30s (largest 909s)
+train,00000013,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000013,arcs,info,SELF_LOOP,2,arc starts and ends at same node
+train,00000013,arcs,info,DUPLICATE_ARC,129,"same (from,to) pair appears under several arc ids"
+train,00000014,track,info,TIME_GAP,1,intervals longer than 30s (largest 72s)
+train,00000014,track,info,START_TIME_NOT_1,1,first timestamp is 2
+train,00000014,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000014,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000016,arcs,info,DUPLICATE_ARC,1,"same (from,to) pair appears under several arc ids"
+train,00000018,route,info,ROUTE_REPEATED_ARC,9,route traverses the same arc more than once
+train,00000019,nodes,info,DUPLICATE_NODE_COORD,5,distinct node ids share coordinates
+train,00000019,arcs,info,DUPLICATE_ARC,86,"same (from,to) pair appears under several arc ids"
+train,00000019,route,warning,ROUTE_DISCONTINUITY,3,consecutive route arcs are not connected (to_node != next from_node)
+train,00000021,track,info,TIME_GAP,2,intervals longer than 30s (largest 2161s)
+train,00000021,track,info,START_TIME_NOT_1,1,first timestamp is 2
+train,00000022,track,info,START_TIME_NOT_1,1,first timestamp is 90
+train,00000022,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000022,arcs,info,DUPLICATE_ARC,4,"same (from,to) pair appears under several arc ids"
+train,00000024,track,info,TIME_GAP,2,intervals longer than 30s (largest 458s)
+train,00000024,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000024,arcs,info,SELF_LOOP,2,arc starts and ends at same node
+train,00000024,arcs,info,DUPLICATE_ARC,102,"same (from,to) pair appears under several arc ids"
+train,00000025,track,info,START_TIME_NOT_1,1,first timestamp is 2
+train,00000025,nodes,info,DUPLICATE_NODE_COORD,11,distinct node ids share coordinates
+train,00000025,arcs,info,DUPLICATE_ARC,128,"same (from,to) pair appears under several arc ids"
+train,00000026,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000028,track,info,TIME_GAP,4,intervals longer than 30s (largest 196s)
+train,00000028,nodes,info,DUPLICATE_NODE_COORD,3,distinct node ids share coordinates
+train,00000028,arcs,info,DUPLICATE_ARC,8,"same (from,to) pair appears under several arc ids"
+train,00000029,arcs,info,DUPLICATE_ARC,9,"same (from,to) pair appears under several arc ids"
+train,00000031,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000031,arcs,info,DUPLICATE_ARC,4,"same (from,to) pair appears under several arc ids"
+train,00000032,track,info,TIME_GAP,1,intervals longer than 30s (largest 41s)
+train,00000032,track,info,START_TIME_NOT_1,1,first timestamp is 2
+train,00000032,nodes,info,DUPLICATE_NODE_COORD,4,distinct node ids share coordinates
+train,00000032,arcs,info,DUPLICATE_ARC,80,"same (from,to) pair appears under several arc ids"
+train,00000033,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000033,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+train,00000034,track,info,START_TIME_NOT_1,1,first timestamp is 2
+train,00000034,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000034,arcs,info,DUPLICATE_ARC,4,"same (from,to) pair appears under several arc ids"
+train,00000035,arcs,info,SELF_LOOP,2,arc starts and ends at same node
+train,00000035,arcs,info,DUPLICATE_ARC,38,"same (from,to) pair appears under several arc ids"
+train,00000037,track,info,TIME_GAP,3,intervals longer than 30s (largest 52s)
+train,00000037,nodes,info,DUPLICATE_NODE_COORD,3,distinct node ids share coordinates
+train,00000037,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000038,arcs,info,SELF_LOOP,2,arc starts and ends at same node
+train,00000038,arcs,info,DUPLICATE_ARC,1,"same (from,to) pair appears under several arc ids"
+train,00000041,track,info,TIME_GAP,1,intervals longer than 30s (largest 89s)
+train,00000041,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000041,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000041,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+train,00000042,track,info,TIME_GAP,22,intervals longer than 30s (largest 670s)
+train,00000042,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000042,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+train,00000043,track,info,TIME_GAP,2,intervals longer than 30s (largest 230s)
+train,00000043,nodes,info,DUPLICATE_NODE_COORD,3,distinct node ids share coordinates
+train,00000043,arcs,info,DUPLICATE_ARC,322,"same (from,to) pair appears under several arc ids"
+train,00000044,track,info,TIME_GAP,2,intervals longer than 30s (largest 341s)
+train,00000044,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000046,track,info,START_TIME_NOT_1,1,first timestamp is 21
+train,00000046,track,info,REPEATED_POSITION,1,consecutive identical positions
+train,00000047,nodes,info,DUPLICATE_NODE_COORD,4,distinct node ids share coordinates
+train,00000047,arcs,info,DUPLICATE_ARC,27,"same (from,to) pair appears under several arc ids"
+train,00000050,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000053,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000053,arcs,info,DUPLICATE_ARC,28,"same (from,to) pair appears under several arc ids"
+train,00000054,track,info,TIME_GAP,2,intervals longer than 30s (largest 79s)
+train,00000054,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000054,arcs,info,DUPLICATE_ARC,96,"same (from,to) pair appears under several arc ids"
+train,00000055,track,info,TIME_GAP,1,intervals longer than 30s (largest 184s)
+train,00000055,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000055,arcs,info,SELF_LOOP,8,arc starts and ends at same node
+train,00000055,arcs,info,DUPLICATE_ARC,12,"same (from,to) pair appears under several arc ids"
+train,00000057,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000057,arcs,info,DUPLICATE_ARC,1,"same (from,to) pair appears under several arc ids"
+train,00000058,arcs,info,DUPLICATE_ARC,15,"same (from,to) pair appears under several arc ids"
+train,00000060,track,info,START_TIME_NOT_1,1,first timestamp is 17
+train,00000060,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000061,arcs,info,DUPLICATE_ARC,8,"same (from,to) pair appears under several arc ids"
+train,00000062,track,info,TIME_GAP,5,intervals longer than 30s (largest 56s)
+train,00000062,track,info,START_TIME_NOT_1,1,first timestamp is 11
+train,00000062,track,info,REPEATED_POSITION,1,consecutive identical positions
+train,00000062,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000062,arcs,info,DUPLICATE_ARC,17,"same (from,to) pair appears under several arc ids"
+train,00000063,track,info,START_TIME_NOT_1,1,first timestamp is 3
+train,00000063,arcs,info,DUPLICATE_ARC,10,"same (from,to) pair appears under several arc ids"
+train,00000064,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000064,arcs,info,DUPLICATE_ARC,4,"same (from,to) pair appears under several arc ids"
+train,00000068,track,info,START_TIME_NOT_1,1,first timestamp is 13
+train,00000069,track,info,TIME_GAP,2,intervals longer than 30s (largest 2658s)
+train,00000069,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+train,00000069,route,info,ROUTE_REPEATED_ARC,29,route traverses the same arc more than once
+train,00000070,track,info,TIME_GAP,1,intervals longer than 30s (largest 152s)
+train,00000070,track,info,START_TIME_NOT_1,1,first timestamp is 2
+train,00000071,track,info,NON_INTEGER_TIME,848,fractional timestamps
+train,00000072,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000074,nodes,info,DUPLICATE_NODE_COORD,7,distinct node ids share coordinates
+train,00000074,arcs,info,DUPLICATE_ARC,96,"same (from,to) pair appears under several arc ids"
+train,00000075,route,warning,ROUTE_DISCONTINUITY,2,consecutive route arcs are not connected (to_node != next from_node)
+train,00000075,route,info,ROUTE_REPEATED_ARC,2,route traverses the same arc more than once
+train,00000078,track,info,TIME_GAP,2,intervals longer than 30s (largest 52810s)
+train,00000078,track,info,START_TIME_NOT_1,1,first timestamp is 3
+train,00000078,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000078,arcs,info,DUPLICATE_ARC,38,"same (from,to) pair appears under several arc ids"
+train,00000079,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000079,arcs,info,SELF_LOOP,2,arc starts and ends at same node
+train,00000079,arcs,info,DUPLICATE_ARC,27,"same (from,to) pair appears under several arc ids"
+train,00000080,track,info,TIME_GAP,2,intervals longer than 30s (largest 59s)
+train,00000080,arcs,info,DUPLICATE_ARC,10,"same (from,to) pair appears under several arc ids"
+train,00000080,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+train,00000081,track,info,TIME_GAP,37,intervals longer than 30s (largest 536s)
+train,00000081,track,info,START_TIME_NOT_1,1,first timestamp is 3
+train,00000081,arcs,info,DUPLICATE_ARC,6,"same (from,to) pair appears under several arc ids"
+train,00000082,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000083,arcs,info,DUPLICATE_ARC,3,"same (from,to) pair appears under several arc ids"
+train,00000084,track,info,TIME_GAP,4,intervals longer than 30s (largest 312s)
+train,00000084,track,info,REPEATED_POSITION,2,consecutive identical positions
+train,00000084,nodes,info,DUPLICATE_NODE_COORD,3,distinct node ids share coordinates
+train,00000084,arcs,info,SELF_LOOP,2,arc starts and ends at same node
+train,00000084,arcs,info,DUPLICATE_ARC,13,"same (from,to) pair appears under several arc ids"
+train,00000084,route,info,ROUTE_REPEATED_ARC,2,route traverses the same arc more than once
+train,00000085,track,info,TIME_GAP,4,intervals longer than 30s (largest 70s)
+train,00000085,track,info,REPEATED_POSITION,1,consecutive identical positions
+train,00000086,nodes,info,DUPLICATE_NODE_COORD,4,distinct node ids share coordinates
+train,00000086,arcs,info,DUPLICATE_ARC,63,"same (from,to) pair appears under several arc ids"
+train,00000086,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+train,00000086,route,info,ROUTE_REPEATED_ARC,2,route traverses the same arc more than once
+train,00000088,track,info,TIME_GAP,7,intervals longer than 30s (largest 232s)
+train,00000088,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+train,00000089,track,info,TIME_GAP,7,intervals longer than 30s (largest 193s)
+train,00000089,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000089,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+train,00000090,track,info,TIME_GAP,1,intervals longer than 30s (largest 153064s)
+train,00000090,track,info,START_TIME_NOT_1,1,first timestamp is 4
+train,00000090,route,info,ROUTE_REPEATED_ARC,1,route traverses the same arc more than once
+train,00000092,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+train,00000092,arcs,info,DUPLICATE_ARC,4,"same (from,to) pair appears under several arc ids"
+train,00000092,route,info,ROUTE_REPEATED_ARC,14,route traverses the same arc more than once
+train,00000093,arcs,info,DUPLICATE_ARC,17,"same (from,to) pair appears under several arc ids"
+train,00000095,route,info,ROUTE_REPEATED_ARC,7,route traverses the same arc more than once
+train,00000096,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000096,arcs,info,DUPLICATE_ARC,3,"same (from,to) pair appears under several arc ids"
+train,00000097,track,info,NON_INTEGER_TIME,1739,fractional timestamps
+train,00000098,track,info,TIME_GAP,2,intervals longer than 30s (largest 50s)
+train,00000098,arcs,info,DUPLICATE_ARC,10,"same (from,to) pair appears under several arc ids"
+train,00000099,nodes,info,DUPLICATE_NODE_COORD,2,distinct node ids share coordinates
+train,00000099,arcs,info,SELF_LOOP,2,arc starts and ends at same node
+train,00000099,arcs,info,DUPLICATE_ARC,7,"same (from,to) pair appears under several arc ids"
+student_test,00000000,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+student_test,00000000,arcs,info,DUPLICATE_ARC,6,"same (from,to) pair appears under several arc ids"
+student_test,00000009,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+student_test,00000009,arcs,info,DUPLICATE_ARC,62,"same (from,to) pair appears under several arc ids"
+student_test,00000052,arcs,info,DUPLICATE_ARC,2,"same (from,to) pair appears under several arc ids"
+student_test,00000056,arcs,info,DUPLICATE_ARC,22,"same (from,to) pair appears under several arc ids"
+student_test,00000056,route,info,ROUTE_REPEATED_ARC,255,route traverses the same arc more than once
+student_test,00000065,track,info,TIME_GAP,1,intervals longer than 30s (largest 210s)
+student_test,00000065,arcs,info,DUPLICATE_ARC,4,"same (from,to) pair appears under several arc ids"
+student_test,00000076,track,info,TIME_GAP,1,intervals longer than 30s (largest 32s)
+student_test,00000076,arcs,info,DUPLICATE_ARC,29,"same (from,to) pair appears under several arc ids"
+student_test,00000076,route,warning,ROUTE_DISCONTINUITY,1,consecutive route arcs are not connected (to_node != next from_node)
+student_test,00000077,nodes,info,DUPLICATE_NODE_COORD,1,distinct node ids share coordinates
+student_test,00000091,arcs,info,SELF_LOOP,2,arc starts and ends at same node
+student_test,00000091,arcs,info,DUPLICATE_ARC,3,"same (from,to) pair appears under several arc ids"

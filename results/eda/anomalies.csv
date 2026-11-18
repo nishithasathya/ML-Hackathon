@@ -1,0 +1,52 @@
+partition,trip_id,rule,column,value
+train,00000006,largest GPS time gap above 5 minutes,max_gap_s,301.0
+train,00000011,largest GPS time gap above 5 minutes,max_gap_s,909.0
+train,00000021,largest GPS time gap above 5 minutes,max_gap_s,2161.0
+train,00000024,largest GPS time gap above 5 minutes,max_gap_s,458.0
+train,00000042,largest GPS time gap above 5 minutes,max_gap_s,670.0
+train,00000044,largest GPS time gap above 5 minutes,max_gap_s,341.0
+train,00000069,largest GPS time gap above 5 minutes,max_gap_s,2658.0
+train,00000078,largest GPS time gap above 5 minutes,max_gap_s,52810.0
+train,00000081,largest GPS time gap above 5 minutes,max_gap_s,536.0
+train,00000084,largest GPS time gap above 5 minutes,max_gap_s,312.0
+train,00000090,largest GPS time gap above 5 minutes,max_gap_s,153064.0
+train,00000033,median GPS distance to reference route above 30 m,gps_route_dist_median_m,122.38321689120026
+train,00000054,median GPS distance to reference route above 30 m,gps_route_dist_median_m,138.51439765354573
+train,00000002,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+train,00000019,reference route has disconnected consecutive arcs,route_continuity_breaks,3.0
+train,00000033,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+train,00000041,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+train,00000042,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+train,00000069,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+train,00000075,reference route has disconnected consecutive arcs,route_continuity_breaks,2.0
+train,00000080,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+train,00000086,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+train,00000089,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+student_test,00000076,reference route has disconnected consecutive arcs,route_continuity_breaks,1.0
+train,00000001,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,1.0
+train,00000008,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,1.0
+train,00000013,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,95.0
+train,00000032,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,40.0
+train,00000033,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,1.0
+train,00000043,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,2.0
+train,00000053,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,1.0
+train,00000057,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,1.0
+train,00000079,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,2.0
+train,00000092,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,3.0
+student_test,00000040,implied speed above 70 m/s (252 km/h) between consecutive fixes,n_steps_speed_gt_70mps,1.0
+train,00000006,track does not start at t = 1,t_start,693.0
+train,00000014,track does not start at t = 1,t_start,2.0
+train,00000021,track does not start at t = 1,t_start,2.0
+train,00000022,track does not start at t = 1,t_start,90.0
+train,00000025,track does not start at t = 1,t_start,2.0
+train,00000032,track does not start at t = 1,t_start,2.0
+train,00000034,track does not start at t = 1,t_start,2.0
+train,00000046,track does not start at t = 1,t_start,21.0
+train,00000060,track does not start at t = 1,t_start,17.0
+train,00000062,track does not start at t = 1,t_start,11.0
+train,00000063,track does not start at t = 1,t_start,3.0
+train,00000068,track does not start at t = 1,t_start,13.0
+train,00000070,track does not start at t = 1,t_start,2.0
+train,00000078,track does not start at t = 1,t_start,3.0
+train,00000081,track does not start at t = 1,t_start,3.0
+train,00000090,track does not start at t = 1,t_start,4.0

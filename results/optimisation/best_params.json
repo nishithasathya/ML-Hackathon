@@ -1,0 +1,15 @@
+{
+  "model": "rf",
+  "best_trial": 5,
+  "best_cv_top1_search": 0.7796754967724527,
+  "best_params": {
+    "n_estimators": 106,
+    "max_depth": 30,
+    "min_samples_leaf": 2,
+    "max_features": 0.5975133706123893,
+    "class_weight": "balanced_subsample"
+  },
+  "search_time_s": 1305.2585573339966,
+  "n_complete_trials": 12,
+  "stopped_early": true
+}

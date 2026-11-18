@@ -1,0 +1,3 @@
+partition,n_trips,n_complete_trips,total_gps_observations,total_nodes,total_arcs,total_route_arcs,total_size_mb,trips_with_crlf_track
+student_test,10,10,19160,90689,185041,3477,4.368591,10
+train,80,80,208417,1933485,3876904,31336,89.737452,80

@@ -1,0 +1,118 @@
+2026-11-18 15:53:22 | INFO    | PathSnap API starting (artifacts=/Users/nishitha/Documents/ML LAB/HACKATHON/PathSnap/artifacts, data=/Users/nishitha/Documents/ML LAB/HACKATHON/PathSnap/data/raw/student_test)
+2026-11-18 15:53:22 | INFO    | model loaded: key=rf bundle=2.0.0 sha256=1ad054b2cf99... (0.31s) from /Users/nishitha/Documents/ML LAB/HACKATHON/PathSnap/artifacts
+2026-11-18 15:53:22 | INFO    | serving 'student_test (rehearsal)' trips from /Users/nishitha/Documents/ML LAB/HACKATHON/PathSnap/data/raw/student_test: ['00000000', '00000007', '00000009', '00000040', '00000052', '00000056', '00000065', '00000076', '00000077', '00000091']
+2026-11-18 15:53:23 | INFO    | REQUEST  GET /health from 10.202.132.73
+2026-11-18 15:53:23 | INFO    | RESPONSE GET /health -> 200 (0.00s)
+2026-11-18 15:53:23 | INFO    | REQUEST  GET /api/evaluation/trips from 10.202.132.73
+2026-11-18 15:53:23 | INFO    | RESPONSE GET /api/evaluation/trips -> 200 (0.00s)
+2026-11-18 15:53:23 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:23 | INFO    | predict request for trip 00000000
+2026-11-18 15:53:23 | INFO    | [00000000] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:23 | INFO    | [00000000] 2503 GPS fixes, 8542 nodes, 18196 arcs
+2026-11-18 15:53:23 | INFO    | [00000000] preprocessed: 2503 observations, 1 segments
+2026-11-18 15:53:23 | INFO    | [00000000] candidates: 10718 rows (4.28 per observation)
+2026-11-18 15:53:23 | INFO    | [00000000] classifier scored 10718 candidates
+2026-11-18 15:53:23 | INFO    | [00000000] HMM/Viterbi decoded 2503 observations in 1 chains
+2026-11-18 15:53:23 | INFO    | [00000000] inference finished in 0.34s (preprocess=0.00s, candidates_features=0.11s, classifier=0.05s, hmm_viterbi=0.17s)
+2026-11-18 15:53:23 | INFO    | [00000000] server-side evaluation: HMM top1=0.9612 continuity=0.9992 | classifier-only top1=0.9409
+2026-11-18 15:53:23 | INFO    | RESPONSE POST /api/predict -> 200 (0.45s)
+2026-11-18 15:53:23 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:23 | INFO    | predict request for trip 00000007
+2026-11-18 15:53:23 | INFO    | [00000007] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:23 | INFO    | [00000007] 1354 GPS fixes, 2061 nodes, 4369 arcs
+2026-11-18 15:53:23 | INFO    | [00000007] preprocessed: 1354 observations, 1 segments
+2026-11-18 15:53:23 | INFO    | [00000007] candidates: 4759 rows (3.51 per observation)
+2026-11-18 15:53:23 | INFO    | [00000007] classifier scored 4759 candidates
+2026-11-18 15:53:23 | INFO    | [00000007] HMM/Viterbi decoded 1354 observations in 1 chains
+2026-11-18 15:53:23 | INFO    | [00000007] inference finished in 0.15s (preprocess=0.00s, candidates_features=0.05s, classifier=0.01s, hmm_viterbi=0.09s)
+2026-11-18 15:53:23 | INFO    | [00000007] server-side evaluation: HMM top1=1.0000 continuity=1.0000 | classifier-only top1=0.9313
+2026-11-18 15:53:23 | INFO    | RESPONSE POST /api/predict -> 200 (0.19s)
+2026-11-18 15:53:23 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:23 | INFO    | predict request for trip 00000009
+2026-11-18 15:53:23 | INFO    | [00000009] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:23 | INFO    | [00000009] 1049 GPS fixes, 6745 nodes, 13106 arcs
+2026-11-18 15:53:23 | INFO    | [00000009] preprocessed: 1049 observations, 1 segments
+2026-11-18 15:53:23 | INFO    | [00000009] candidates: 9564 rows (9.12 per observation)
+2026-11-18 15:53:23 | INFO    | [00000009] classifier scored 9564 candidates
+2026-11-18 15:53:24 | INFO    | [00000009] HMM/Viterbi decoded 1049 observations in 1 chains
+2026-11-18 15:53:24 | INFO    | [00000009] inference finished in 0.22s (preprocess=0.00s, candidates_features=0.04s, classifier=0.03s, hmm_viterbi=0.15s)
+2026-11-18 15:53:24 | INFO    | [00000009] server-side evaluation: HMM top1=0.9142 continuity=0.9990 | classifier-only top1=0.8637
+2026-11-18 15:53:24 | INFO    | RESPONSE POST /api/predict -> 200 (0.27s)
+2026-11-18 15:53:24 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:24 | INFO    | predict request for trip 00000040
+2026-11-18 15:53:24 | INFO    | [00000040] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:24 | INFO    | [00000040] 2995 GPS fixes, 12945 nodes, 27026 arcs
+2026-11-18 15:53:24 | INFO    | [00000040] preprocessed: 2995 observations, 1 segments
+2026-11-18 15:53:24 | INFO    | [00000040] candidates: 13919 rows (4.65 per observation)
+2026-11-18 15:53:24 | INFO    | [00000040] classifier scored 13919 candidates
+2026-11-18 15:53:24 | INFO    | [00000040] HMM/Viterbi decoded 2995 observations in 1 chains
+2026-11-18 15:53:24 | INFO    | [00000040] inference finished in 0.40s (preprocess=0.00s, candidates_features=0.13s, classifier=0.03s, hmm_viterbi=0.24s)
+2026-11-18 15:53:24 | INFO    | [00000040] server-side evaluation: HMM top1=0.9750 continuity=1.0000 | classifier-only top1=0.9289
+2026-11-18 15:53:24 | INFO    | RESPONSE POST /api/predict -> 200 (0.51s)
+2026-11-18 15:53:24 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:24 | INFO    | predict request for trip 00000052
+2026-11-18 15:53:24 | INFO    | [00000052] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:24 | INFO    | [00000052] 262 GPS fixes, 1770 nodes, 3577 arcs
+2026-11-18 15:53:24 | INFO    | [00000052] preprocessed: 262 observations, 1 segments
+2026-11-18 15:53:24 | INFO    | [00000052] candidates: 1950 rows (7.44 per observation)
+2026-11-18 15:53:24 | INFO    | [00000052] classifier scored 1950 candidates
+2026-11-18 15:53:24 | INFO    | [00000052] HMM/Viterbi decoded 262 observations in 1 chains
+2026-11-18 15:53:24 | INFO    | [00000052] inference finished in 0.05s (preprocess=0.00s, candidates_features=0.01s, classifier=0.01s, hmm_viterbi=0.02s)
+2026-11-18 15:53:24 | INFO    | [00000052] server-side evaluation: HMM top1=0.9962 continuity=1.0000 | classifier-only top1=0.9542
+2026-11-18 15:53:24 | INFO    | RESPONSE POST /api/predict -> 200 (0.07s)
+2026-11-18 15:53:24 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:24 | INFO    | predict request for trip 00000056
+2026-11-18 15:53:24 | INFO    | [00000056] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:24 | INFO    | [00000056] 3958 GPS fixes, 14759 nodes, 27631 arcs
+2026-11-18 15:53:24 | INFO    | [00000056] preprocessed: 3958 observations, 1 segments
+2026-11-18 15:53:24 | INFO    | [00000056] candidates: 30946 rows (7.82 per observation)
+2026-11-18 15:53:24 | INFO    | [00000056] classifier scored 30946 candidates
+2026-11-18 15:53:25 | INFO    | [00000056] HMM/Viterbi decoded 3958 observations in 1 chains
+2026-11-18 15:53:25 | INFO    | [00000056] inference finished in 0.63s (preprocess=0.00s, candidates_features=0.16s, classifier=0.04s, hmm_viterbi=0.43s)
+2026-11-18 15:53:25 | INFO    | [00000056] server-side evaluation: HMM top1=0.9659 continuity=0.9992 | classifier-only top1=0.8929
+2026-11-18 15:53:25 | INFO    | RESPONSE POST /api/predict -> 200 (0.81s)
+2026-11-18 15:53:25 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:25 | INFO    | predict request for trip 00000065
+2026-11-18 15:53:25 | INFO    | [00000065] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:25 | INFO    | [00000065] 768 GPS fixes, 6448 nodes, 13184 arcs
+2026-11-18 15:53:25 | INFO    | [00000065] preprocessed: 768 observations, 2 segments
+2026-11-18 15:53:25 | INFO    | [00000065] candidates: 6608 rows (8.60 per observation)
+2026-11-18 15:53:25 | INFO    | [00000065] classifier scored 6608 candidates
+2026-11-18 15:53:25 | INFO    | [00000065] HMM/Viterbi decoded 768 observations in 2 chains
+2026-11-18 15:53:25 | INFO    | [00000065] inference finished in 0.18s (preprocess=0.00s, candidates_features=0.03s, classifier=0.03s, hmm_viterbi=0.11s)
+2026-11-18 15:53:25 | INFO    | [00000065] server-side evaluation: HMM top1=0.9049 continuity=1.0000 | classifier-only top1=0.8385
+2026-11-18 15:53:25 | INFO    | RESPONSE POST /api/predict -> 200 (0.21s)
+2026-11-18 15:53:25 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:25 | INFO    | predict request for trip 00000076
+2026-11-18 15:53:25 | INFO    | [00000076] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:25 | INFO    | [00000076] 1486 GPS fixes, 26635 nodes, 56027 arcs
+2026-11-18 15:53:25 | INFO    | [00000076] preprocessed: 1486 observations, 2 segments
+2026-11-18 15:53:25 | INFO    | [00000076] candidates: 13602 rows (9.15 per observation)
+2026-11-18 15:53:26 | INFO    | [00000076] classifier scored 13602 candidates
+2026-11-18 15:53:26 | INFO    | [00000076] HMM/Viterbi decoded 1486 observations in 2 chains
+2026-11-18 15:53:26 | INFO    | [00000076] inference finished in 0.55s (preprocess=0.00s, candidates_features=0.15s, classifier=0.03s, hmm_viterbi=0.37s)
+2026-11-18 15:53:26 | INFO    | [00000076] server-side evaluation: HMM top1=0.9643 continuity=1.0000 | classifier-only top1=0.8775
+2026-11-18 15:53:26 | INFO    | RESPONSE POST /api/predict -> 200 (0.63s)
+2026-11-18 15:53:26 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:26 | INFO    | predict request for trip 00000077
+2026-11-18 15:53:26 | INFO    | [00000077] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:26 | INFO    | [00000077] 3911 GPS fixes, 4424 nodes, 9622 arcs
+2026-11-18 15:53:26 | INFO    | [00000077] preprocessed: 3911 observations, 1 segments
+2026-11-18 15:53:26 | INFO    | [00000077] candidates: 32335 rows (8.27 per observation)
+2026-11-18 15:53:26 | INFO    | [00000077] classifier scored 32335 candidates
+2026-11-18 15:53:27 | INFO    | [00000077] HMM/Viterbi decoded 3911 observations in 1 chains
+2026-11-18 15:53:27 | INFO    | [00000077] inference finished in 0.60s (preprocess=0.00s, candidates_features=0.12s, classifier=0.04s, hmm_viterbi=0.43s)
+2026-11-18 15:53:27 | INFO    | [00000077] server-side evaluation: HMM top1=0.9138 continuity=1.0000 | classifier-only top1=0.7147
+2026-11-18 15:53:27 | INFO    | RESPONSE POST /api/predict -> 200 (0.71s)
+2026-11-18 15:53:27 | INFO    | REQUEST  POST /api/predict from 10.202.132.73
+2026-11-18 15:53:27 | INFO    | predict request for trip 00000091
+2026-11-18 15:53:27 | INFO    | [00000091] loading trip (track, nodes, arcs only - no reference route)
+2026-11-18 15:53:27 | INFO    | [00000091] 874 GPS fixes, 6360 nodes, 12303 arcs
+2026-11-18 15:53:27 | INFO    | [00000091] preprocessed: 874 observations, 1 segments
+2026-11-18 15:53:27 | INFO    | [00000091] candidates: 7229 rows (8.27 per observation)
+2026-11-18 15:53:27 | INFO    | [00000091] classifier scored 7229 candidates
+2026-11-18 15:53:27 | INFO    | [00000091] HMM/Viterbi decoded 874 observations in 1 chains
+2026-11-18 15:53:27 | INFO    | [00000091] inference finished in 0.18s (preprocess=0.00s, candidates_features=0.04s, classifier=0.03s, hmm_viterbi=0.12s)
+2026-11-18 15:53:27 | INFO    | [00000091] server-side evaluation: HMM top1=0.9497 continuity=1.0000 | classifier-only top1=0.8661
+2026-11-18 15:53:27 | INFO    | RESPONSE POST /api/predict -> 200 (0.22s)
+2026-11-18 15:53:27 | INFO    | PathSnap API shutting down

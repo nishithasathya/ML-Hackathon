@@ -1,0 +1,56 @@
+{
+  "selected": "rf",
+  "rule": "(cross-validation on training trips only; student_test is reported, not used):\n1. highest mean CV Top-1 accuracy (the task metric);\n2. models within 0.5 percentage points of the best are treated as tied, and the\n   tie is broken by lower mean CV log loss (better probabilities matter because\n   the HMM uses them as emissions), then by lower inference time.\nWrites results/models/selected_model.json with the evidence.",
+  "tied_within_margin": [
+    "rf",
+    "hgb",
+    "mlp"
+  ],
+  "candidates": [
+    {
+      "model": "logreg",
+      "cv_top1_mean": 0.7710507019001052,
+      "cv_top1_std": 0.12373545140337396,
+      "cv_macro_f1_mean": 0.8863064242161254,
+      "cv_log_loss_mean": 0.15188441473048053,
+      "test_top1_accuracy": 0.8464509394572025,
+      "test_inference_time_s": 0.04347020799832535
+    },
+    {
+      "model": "knn",
+      "cv_top1_mean": 0.7674941277879069,
+      "cv_top1_std": 0.12176242348598867,
+      "cv_macro_f1_mean": 0.8961854599770478,
+      "cv_log_loss_mean": 0.16676414542656617,
+      "test_top1_accuracy": 0.8533402922755741,
+      "test_inference_time_s": 31.068406916998356
+    },
+    {
+      "model": "rf",
+      "cv_top1_mean": 0.7775334710407906,
+      "cv_top1_std": 0.12338143741876566,
+      "cv_macro_f1_mean": 0.9100865767730368,
+      "cv_log_loss_mean": 0.11035043683928117,
+      "test_top1_accuracy": 0.8605949895615866,
+      "test_inference_time_s": 0.3141130420008267
+    },
+    {
+      "model": "hgb",
+      "cv_top1_mean": 0.7774208061636567,
+      "cv_top1_std": 0.12344637500608185,
+      "cv_macro_f1_mean": 0.9108277308324553,
+      "cv_log_loss_mean": 0.1143628936720946,
+      "test_top1_accuracy": 0.8609081419624217,
+      "test_inference_time_s": 0.08480708400020376
+    },
+    {
+      "model": "mlp",
+      "cv_top1_mean": 0.7782678834458501,
+      "cv_top1_std": 0.1244332740041261,
+      "cv_macro_f1_mean": 0.9085488355099617,
+      "cv_log_loss_mean": 0.11553080067416255,
+      "test_top1_accuracy": 0.868267223382046,
+      "test_inference_time_s": 0.05892083300204831
+    }
+  ]
+}
