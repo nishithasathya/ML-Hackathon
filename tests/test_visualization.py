@@ -49,3 +49,10 @@ def test_cli_maps(synthetic_root, tmp_path):
                              "--output-root", str(tmp_path)])
     assert (tmp_path / "maps" / "train_00000001.html").exists()
     assert (tmp_path / "figures" / "trip_train_00000001.png").exists()
+
+
+def test_map_draws_classifier_and_hmm_layers(synthetic_root, tmp_path):
+    raw = load_trip("train", "00000001", synthetic_root)
+    fmap = build_trip_map(raw, predicted_arc_ids=list(raw.route), classifier_arc_ids=list(raw.route[:1]))
+    html = save_trip_map(fmap, tmp_path / "pred.html").read_text()
+    assert "Predicted route (HMM/Viterbi)" in html and "Classifier-only prediction (no HMM)" in html
