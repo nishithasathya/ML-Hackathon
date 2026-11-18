@@ -86,3 +86,36 @@ def grid():
             "route": [arc_id(arcs, node_id(0, 0), node_id(1, 0)), arc_id(arcs, node_id(1, 0), node_id(2, 0)),
                       arc_id(arcs, node_id(2, 0), node_id(2, 1))],
             "arc_id": lambda a, b: arc_id(arcs, a, b), "node_id": node_id}
+
+
+# --------------------------------------------------------------------------- #
+# Phase-2 fixtures                                                            #
+# --------------------------------------------------------------------------- #
+@pytest.fixture
+def multi_root(tmp_path: Path) -> Path:
+    """Six synthetic training trips and two student-test trips (enough for 3-fold group CV)."""
+    for i in range(6):
+        write_trip(tmp_path, "train", f"0000001{i}")
+    for i in range(2):
+        write_trip(tmp_path, "student_test", f"0000002{i}")
+    return tmp_path
+
+
+@pytest.fixture
+def tiny_bundle(multi_root: Path, tmp_path: Path):
+    """A real (tiny) artefact bundle: logistic regression trained on the synthetic trips."""
+    import joblib
+
+    from src.hmm.decoder import HMMConfig
+    from src.inference.artifacts import export_bundle
+    from src.models.dataset import build_partition, xy
+    from src.models.model_zoo import make_model
+
+    feats, _ = build_partition("train", data_root=multi_root, use_cache=False, verbose=False)
+    model = make_model("logreg")
+    model.fit(*xy(feats))
+    model_path = tmp_path / "logreg.joblib"
+    joblib.dump(model, model_path)
+    out = export_bundle(model_path, "logreg", {"C": 1.0}, HMMConfig(), {"note": "synthetic test bundle"},
+                        directory=tmp_path / "artifacts")
+    return out

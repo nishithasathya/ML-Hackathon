@@ -1,45 +1,50 @@
 # PathSnap: Map-Matching & Route Reconstruction (UE24CS352A, PES University)
 
-PathSnap matches noisy GPS observations to a road network and reconstructs the
-route a vehicle actually drove.
+PathSnap matches noisy GPS observations to a road network and reconstructs the route a vehicle drove.
 
-**Current status: FIRST-PHASE EVALUATION milestone.** This repository contains
-dataset exploration, validation, preprocessing, candidate generation, feature
-engineering and visualisation. **No machine-learning model, Bayesian optimisation,
-HMM/Viterbi decoder, API or UI is implemented yet.** Those are planned for later
-evaluations (see [`docs/DEFERRED_COMPONENTS.md`](docs/DEFERRED_COMPONENTS.md)).
+For every GPS fix, nearby road arcs are generated as **candidates**. A trained classifier scores each
+(fix, candidate) pair. A **Hidden Markov Model with Viterbi decoding** then picks a connected route through
+those candidates. A **FastAPI** backend (Laptop 1) serves predictions to a **Streamlit** evaluator UI (Laptop 2).
 
-## Team
+**Status: FINAL EVALUATION.** All components are implemented and were run on the 80 training and 10
+student-test trips. Numbers are in `results/` and in the technical report
+(`docs/technical_report/PathSnap_Final_Technical_Report.pdf`). The 10 evaluator trips have not been
+supplied to us; the API serves them from `PATHSNAP_EVAL_DATA_ROOT` once they are
+(see `deployment/DEPLOYMENT.md`).
 
-| Member | Area | Branch | Folder |
+## Team and module ownership
+
+| Member | Area | Phase-2 branch | Owns |
 |---|---|---|---|
-| Nishitha S (integration lead) | Data exploration + integration | `feature/data-exploration` | `src/data_exploration/` |
-| Neha | Preprocessing | `feature/preprocessing` | `src/preprocessing/` |
-| Nishanth N | Feature engineering | `feature/feature-engineering` | `src/features/` |
-| Niranjan | Visualisation + documentation | `feature/visualization-documentation` | `src/visualization/`, `docs/` |
+| Nishitha S (integration lead) | Integration, data pipeline, evaluation, inference, report | `integration/final-shared`, `results/final-evidence` | `src/common/`, `src/data_exploration/`, `src/evaluation/`, `src/inference/`, `scripts/`, `tests/conftest.py`, `tests/test_common.py`, `tests/test_evaluation.py`, docs |
+| Neha | Preprocessing + model experimentation | `feature/model-training` | `src/preprocessing/`, `src/models/`, `tests/test_preprocessing.py`, `tests/test_models.py` |
+| Nishanth N | Features, Bayesian optimisation, HMM/Viterbi | `feature/features-hmm-optimisation` | `src/features/`, `src/hmm/`, `src/optimization/`, `tests/test_features.py`, `tests/test_hmm.py`, `tests/test_optimization.py` |
+| Niranjan | API, UI, visualisation, deployment | `feature/api-ui-deployment` | `src/api/`, `frontend/`, `src/visualization/`, `deployment/`, `tests/test_api.py`, `tests/test_ui.py`, `tests/test_visualization.py` |
 
 ## Repository layout
 
 ```
-.
-├── README.md                 this file
-├── requirements.txt
-├── data/raw/                 put the dataset here (git-ignored)
-│   ├── train/<trip_id>/<trip_id>.{track,nodes,arcs,route}
-│   └── student_test/<trip_id>/...
-├── src/
-│   ├── common/               shared config, raw-file readers, geodesy (integration lead)
-│   ├── data_exploration/     inventory, validation, statistics, run_eda.py
-│   ├── preprocessing/        cleaning, pipeline, run_preprocessing.py
-│   ├── features/             spatial index, candidates, labels, features, run_features.py
-│   └── visualization/        Folium maps, matplotlib figures, run_visualizations.py
-├── scripts/run_first_phase_demo.py   end-to-end demo on one trip
-├── tests/                    pytest suite (uses a synthetic mini-trip, no dataset needed)
-├── docs/                     scope, interfaces, Git workflow, technical documentation
-└── outputs/                  generated results (git-ignored)
+src/common/            config (paths, env vars, partition guard), raw readers, geodesy, road graph
+src/data_exploration/  phase-1 EDA
+src/preprocessing/     cleaning, gap segments, spike flags
+src/features/          KD-tree candidates, features (FEATURE_COLUMNS), labels, radius study
+src/models/            dataset builder, 5-model zoo, GroupKFold CV, comparison, selection rule
+src/optimization/      Optuna TPE Bayesian optimisation
+src/hmm/               HMM emissions/transitions, Viterbi, classifier-vs-HMM experiments
+src/evaluation/        metric definitions (Top-1, macro F1, log loss, continuity, route P/R/F1)
+src/inference/         artefact bundle (export/load) + label-free end-to-end predictor
+src/api/               FastAPI app, service, server-side evaluator, schemas, settings
+src/visualization/     Folium maps (incl. predicted route), EDA + experiment figures
+frontend/              Streamlit evaluator UI + API client
+deployment/            start scripts (macOS/Linux/Windows), connection check, DEPLOYMENT.md
+artifacts/             final model bundle (model.joblib + bundle.json)
+results/               committed experiment evidence (CSV/JSON/PNG/HTML)
+scripts/               full pipeline, artefact export/validation, API rehearsal, report builder
+tests/                 pytest suite (synthetic trips; no dataset needed)
+docs/                  audit, interfaces, workflow, team READMEs, technical report
 ```
 
-## Installation
+## Install
 
 ```bash
 git clone https://github.com/nishithasathya/ML-Hackathon.git
@@ -57,76 +62,64 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-On Windows, activate with `.venv\Scripts\activate`.
-
-### Dataset
-
-Copy the two partition folders from `Student folder/` into `data/raw/`:
+To run the dataset steps, copy the dataset (git-ignored):
 
 ```bash
 cp -R "/path/to/Student folder/train" "/path/to/Student folder/student_test" data/raw/
 ```
 
-Or leave the data where it is and point to it:
+## Run
 
-```bash
-export PATHSNAP_DATA_ROOT="/path/to/Student folder"
-```
-
-Only `train` (80 trips) and `student_test` (10 trips) are readable by the code.
-Any other partition name, including evaluator-testing data, is refused by
-`src/common/config.py`.
-
-## Running (always from the repository root)
+Everything runs from the repository root.
 
 ```bash
 python -m pytest -q
 ```
 ```bash
-python -m src.data_exploration.run_eda
+python scripts/validate_artifacts.py --trip-dir data/raw/student_test --trip 00000052
 ```
 ```bash
-python -m src.preprocessing.run_preprocessing --partition train
-```
-```bash
-python -m src.preprocessing.run_preprocessing --partition student_test
-```
-```bash
-python -m src.features.run_features --partition train --sweep 25 50 75 100
-```
-```bash
-python -m src.features.run_features --partition train
-```
-```bash
-python -m src.features.run_features --partition student_test
-```
-```bash
-python -m src.visualization.run_visualizations figures
-```
-```bash
-python -m src.visualization.run_visualizations maps --partition train --trips 00000010 00000033 00000002
-```
-```bash
-python scripts/run_first_phase_demo.py --partition student_test --trip 00000052
+./scripts/run_full_pipeline.sh
 ```
 
-Approximate run times measured on a cloud Linux container: EDA ≈ 25 s, preprocessing ≈ 10 s,
-radius sweep ≈ 80 s, feature extraction for train ≈ 60 s. The feature files for train take ~56 MB.
+The full pipeline reproduces every result (about 1.5–2 hours). The individual steps are:
 
-## Documentation
+| Step | Command |
+|---|---|
+| 5 models, GroupKFold CV, student test | `python -m src.models.train_compare` |
+| Selection rule | `python -m src.models.select_model` |
+| Radius re-evaluation | `python -m src.features.radius_study --model rf` |
+| Bayesian optimisation | `python -m src.optimization.bayes_opt --model rf --trials 25` |
+| HMM tuning + comparison | `python -m src.hmm.run_hmm --model rf --probs tuned` |
+| Export artefacts | `python scripts/build_final_artifacts.py` |
+| Figures / maps | `python -m src.visualization.experiment_plots`, `python -m src.visualization.prediction_maps --trips 00000052` |
+| HTTP rehearsal (all 10 student-test trips) | `python scripts/run_api_rehearsal.py` |
+| Report PDF | `python scripts/build_report.py` |
 
-* [`docs/FIRST_PHASE_SCOPE.md`](docs/FIRST_PHASE_SCOPE.md): what the official documents require and what we chose for phase 1
-* [`docs/FIRST_PHASE_TECHNICAL_DOC.md`](docs/FIRST_PHASE_TECHNICAL_DOC.md): dataset findings, methods, status
-* [`docs/INTERFACES.md`](docs/INTERFACES.md): shared functions, data classes and CSV columns
-* [`docs/GIT_WORKFLOW.md`](docs/GIT_WORKFLOW.md): exact Git commands per teammate
-* [`docs/INTEGRATION.md`](docs/INTEGRATION.md): merge order and integration testing
-* [`docs/DEMO_CHECKLIST.md`](docs/DEMO_CHECKLIST.md): what to show at the evaluation
-* [`docs/DEFERRED_COMPONENTS.md`](docs/DEFERRED_COMPONENTS.md): what is intentionally not built yet
-* [`docs/AI_ASSISTANCE_AND_WORK_LOG.md`](docs/AI_ASSISTANCE_AND_WORK_LOG.md): AI-use disclosure and record of what was run
+## Deploy (two laptops)
+
+Run this on Laptop 1:
+
+```bash
+PATHSNAP_EVAL_DATA_ROOT=/path/to/evaluator_test ./deployment/start_api.sh
+```
+
+Run this on Laptop 2:
+
+```bash
+PATHSNAP_API_URL=http://<laptop-1-ip>:8000 ./deployment/start_ui.sh
+```
+
+Firewall, Windows and troubleshooting notes are in `deployment/DEPLOYMENT.md`.
 
 ## Data-leakage rules followed
 
-* Evaluator-testing data is not in the repository and cannot be loaded by the code.
-* The reference route is used only to build **labels** (`is_reference`) and data-quality diagnostics, never as a feature.
-* The candidate radius was chosen with a sweep over **training trips only**.
-* Nothing is fitted (no scalers or models) in this phase, so no statistics leak from student-test data.
+* Evaluator-testing data is never read by training or analysis code (`check_partition`). The API reads it only
+  from an explicitly configured folder.
+* Models see only `FEATURE_COLUMNS`. Labels (`is_reference`, `ref_arc_id`, `ref_distance_m`) are separate, and a
+  test asserts this.
+* Prediction loads `.track/.nodes/.arcs` only (`load_trip_for_inference`). The `.route` file is read afterwards
+  by the server-side evaluator, and only metrics are returned.
+* CV folds are split by trip (GroupKFold). Imputers and scalers are fitted inside each fold's pipeline.
+* Model selection, the radius, hyperparameters and decoder parameters are chosen on training trips. The student
+  test is used for reporting and comparison only.

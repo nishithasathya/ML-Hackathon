@@ -1,3 +1,8 @@
+> **Final evaluation update (18 Nov 2026):** every component in this table is now implemented. See
+> `docs/FINAL_AUDIT.md` for where each one lives, and the technical report for results. Only the
+> evaluator-trip verification (10 reserved trips, two physical laptops) remains pending until the data is supplied.
+> The text below is kept unchanged as the phase-1 record.
+
 # Components intentionally deferred to later evaluations
 
 None of the following exist in the repository yet. **Do not claim them during the

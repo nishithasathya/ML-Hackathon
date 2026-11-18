@@ -146,3 +146,41 @@ def iter_trips(partition: str, data_root: Optional[PathLike] = None,
     """Yield RawTrip objects one at a time (keeps memory low for big networks)."""
     for trip_id in trip_ids if trip_ids is not None else list_trips(partition, data_root):
         yield load_trip(partition, trip_id, data_root)
+
+
+# --------------------------------------------------------------------------- #
+# Phase 2: inference-time loading (no labels) and server-side label loading.  #
+# --------------------------------------------------------------------------- #
+
+def load_trip_for_inference(directory: PathLike, trip_id: str, partition: str = "serving") -> RawTrip:
+    """Load ``.track``, ``.nodes`` and ``.arcs`` of one trip WITHOUT its reference route.
+
+    Used by the prediction pipeline (API). The returned RawTrip has an empty
+    ``route`` so that no code downstream can accidentally use labels.
+    ``directory`` is the folder that contains ``<trip_id>/``.
+    """
+    trip_id = str(trip_id)
+    folder = Path(directory) / trip_id
+    return RawTrip(
+        trip_id=trip_id, partition=partition,
+        track=read_track(folder / f"{trip_id}.track"),
+        nodes=read_nodes(folder / f"{trip_id}.nodes"),
+        arcs=read_arcs(folder / f"{trip_id}.arcs"),
+        route=np.empty(0, dtype=np.int64),
+        directory=folder,
+    )
+
+
+def load_reference_route(directory: PathLike, trip_id: str) -> Optional[np.ndarray]:
+    """Server-side evaluator only: the reference arc ids, or None when not supplied."""
+    path = Path(directory) / str(trip_id) / f"{trip_id}.route"
+    return read_route(path) if path.exists() else None
+
+
+def list_trip_dirs(directory: PathLike) -> List[str]:
+    """Trip ids (folder names) inside an arbitrary directory that contain a .track file."""
+    folder = Path(directory)
+    if not folder.is_dir():
+        raise FileNotFoundError(f"Trip directory not found: {folder}")
+    return sorted(p.name for p in folder.iterdir()
+                  if p.is_dir() and not p.name.startswith(".") and (p / f"{p.name}.track").exists())

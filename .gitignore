@@ -16,3 +16,9 @@ venv/
 .DS_Store
 .idea/
 .vscode/
+
+# Phase 2
+data/processed/
+logs/
+.env
+*.db-journal
